@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main_screen_1.dart';
 
@@ -12,6 +13,11 @@ class MainScreen extends StatelessWidget {
     [0, 0, 0, 0, 1],
     [0, 0, 1, 1, 1],
   ];
+
+  Future<void> _setCompletedMainScreen() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasCompletedMainScreen', true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +100,8 @@ class MainScreen extends StatelessWidget {
                 ),
                 Gap(20.h),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    await _setCompletedMainScreen();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MainScreen1()),
