@@ -5,8 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 Future<void> showLevelCompletionDialog(BuildContext context, int level,
     int cupFillPercent, VoidCallback onDialogClose) async {
-  print(
-      'Showing level completion dialog with cup fill percent: $cupFillPercent'); // Debug print
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // User must tap a button to dismiss the dialog
@@ -21,6 +19,7 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
             borderRadius: BorderRadius.circular(10.r),
             image: DecorationImage(
               image: AssetImage('assets/dialogs/victory_bg.png'),
+              fit: BoxFit.fill,
             ),
           ),
           child: Column(
@@ -51,10 +50,35 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
                   Navigator.of(context).pop();
                   onDialogClose();
                 },
-                child: Image.asset(
-                  'assets/dialogs/next_button.png',
+                child: Container(
                   width: 237.w,
                   height: 50.h,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFFFE800),
+                        Color(0xFFF4AB01),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.transparent,
+                    ),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.r,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Gap(30.h),
@@ -73,7 +97,6 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
 
 Future<void> showHintRewardDialog(
     BuildContext context, VoidCallback onDialogClose) async {
-  print('Showing hint reward dialog'); // Debug print
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // User must tap a button to dismiss the dialog
@@ -88,13 +111,14 @@ Future<void> showHintRewardDialog(
             borderRadius: BorderRadius.circular(10.r),
             image: DecorationImage(
               image: AssetImage('assets/dialogs/reward_bg.png'),
+              fit: BoxFit.cover,
             ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Victory!',
+                'Reward!',
                 style: GoogleFonts.karantina(
                   fontSize: 40.sp,
                   fontWeight: FontWeight.w700,
@@ -118,10 +142,35 @@ Future<void> showHintRewardDialog(
                   Navigator.of(context).pop();
                   onDialogClose();
                 },
-                child: Image.asset(
-                  'assets/dialogs/next_button.png',
+                child: Container(
                   width: 237.w,
                   height: 50.h,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFFFE800),
+                        Color(0xFFF4AB01),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.transparent,
+                    ),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Collect',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.r,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

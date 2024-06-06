@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:on_line_hit_color/screens/levels_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/levels_data.dart';
@@ -24,6 +25,7 @@ class _GameState extends State<Game> {
   late GridLogic gridLogic;
   Color selectedColor = Colors.yellow;
   int cupFillPercent = 0;
+  bool levelCompleted = false; // Flag to track level completion
 
   @override
   void initState() {
@@ -54,8 +56,13 @@ class _GameState extends State<Game> {
   }
 
   void goToNextLevel() async {
+    if (levelCompleted) return; // Prevent multiple calls
+    levelCompleted = true; // Set flag to true
+
+    print('goToNextLevel called');
     setState(() {
       cupFillPercent += 10;
+      print('Updated cupFillPercent: $cupFillPercent');
     });
 
     await _saveCompletedLevel(widget.level);
@@ -78,6 +85,7 @@ class _GameState extends State<Game> {
   }
 
   void _navigateToNextLevel() {
+    print('_navigateToNextLevel called');
     if (widget.level + 1 < levels.length) {
       Navigator.pushReplacement(
         context,
@@ -91,8 +99,10 @@ class _GameState extends State<Game> {
   }
 
   void _resetGame() {
+    print('_resetGame called');
     setState(() {
       gridLogic.resetGrid();
+      levelCompleted = false; // Reset flag when game is reset
     });
   }
 
@@ -130,7 +140,11 @@ class _GameState extends State<Game> {
             height: 35.h,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Levels(),
+                ));
           },
         ),
         title: Text(
@@ -139,7 +153,7 @@ class _GameState extends State<Game> {
           style: GoogleFonts.karantina(
             fontSize: 32.sp,
             fontWeight: FontWeight.w700,
-            height: 0.9.h,
+            height: 32.38 / 32.h,
             color: Colors.yellow,
           ),
         ),
@@ -159,10 +173,12 @@ class _GameState extends State<Game> {
                     padding: EdgeInsets.all(16.r),
                     child: GestureDetector(
                       onPanUpdate: (details) {
+                        print('onPanUpdate called');
                         gridLogic.handleDragUpdate(details, context, setState,
                             goToNextLevel, selectedColor);
                       },
                       onPanEnd: (details) {
+                        print('onPanEnd called');
                         gridLogic.handleDragEnd(setState, goToNextLevel);
                       },
                       child: Column(
@@ -202,12 +218,10 @@ class _GameState extends State<Game> {
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 16.h,
-              ),
+          Padding(
+            padding: EdgeInsets.only(top: 16.h),
+            child: Align(
+              alignment: Alignment.topRight,
               child: IconButton(
                 icon: Image.asset(
                   'assets/reset_icon.png',
