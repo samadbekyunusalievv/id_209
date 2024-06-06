@@ -7,7 +7,7 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
     int cupFillPercent, VoidCallback onDialogClose) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // User must tap a button to dismiss the dialog
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Colors.transparent,
@@ -99,7 +99,7 @@ Future<void> showHintRewardDialog(
     BuildContext context, VoidCallback onDialogClose) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // User must tap a button to dismiss the dialog
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: Colors.transparent,
@@ -176,6 +176,24 @@ Future<void> showHintRewardDialog(
             ],
           ),
         ),
+      );
+    },
+  );
+}
+
+Future<void> showAdDialog(
+    BuildContext context, VoidCallback onAdComplete) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      Future.delayed(Duration(seconds: 5), () {
+        Navigator.of(context).pop();
+        onAdComplete();
+      });
+      return AlertDialog(
+        title: Text('Your Ad Here'),
+        content: Text('Please watch this ad to change the color.'),
       );
     },
   );

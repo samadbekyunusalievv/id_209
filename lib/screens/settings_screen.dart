@@ -3,11 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_line_hit_color/screens/premium_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../premium_status.dart';
 import 'main_screen_1.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
+
+  Future<void> _setPremiumStatus(BuildContext context, bool status) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isPremium', status);
+    PremiumStatus.of(context).updatePremiumStatus(status);
+    print('Updated premium status: $status'); // Debug print
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,6 @@ class SettingScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
-
                 title: Text(
                   'Settings',
                   textAlign: TextAlign.center,
@@ -85,7 +93,12 @@ class SettingScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PremiumScreen(),
+                            builder: (context) => PremiumScreen(
+                              onPremiumActivated: () =>
+                                  _setPremiumStatus(context, true),
+                              onPremiumRestored: () =>
+                                  _setPremiumStatus(context, false),
+                            ),
                           ),
                         );
                       },
@@ -121,7 +134,19 @@ class SettingScreen extends StatelessWidget {
                     ),
                     Gap(20.h),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PremiumScreen(
+                              onPremiumActivated: () =>
+                                  _setPremiumStatus(context, true),
+                              onPremiumRestored: () =>
+                                  _setPremiumStatus(context, false),
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         'Restore',
                         style: TextStyle(color: Colors.white, fontSize: 14.sp),

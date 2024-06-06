@@ -4,7 +4,58 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PremiumScreen extends StatelessWidget {
-  const PremiumScreen({super.key});
+  final VoidCallback onPremiumActivated;
+  final VoidCallback onPremiumRestored;
+
+  const PremiumScreen({
+    required this.onPremiumActivated,
+    required this.onPremiumRestored,
+    Key? key,
+  }) : super(key: key);
+
+  void _showPremiumDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Congratulations!'),
+          content: Text('You are now a premium user.'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                onPremiumActivated();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRestoreDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Notice'),
+          content: Text('You are no longer a premium user.'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                onPremiumRestored();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +97,10 @@ class PremiumScreen extends StatelessWidget {
                   },
                 ),
               ),
-              Gap(600),
+              Gap(400.h),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PremiumScreen(),
-                    ),
-                  );
+                  _showPremiumDialog(context);
                 },
                 child: Container(
                   width: 343.w,
@@ -77,6 +123,40 @@ class PremiumScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Get Premium',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.r,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Gap(20.h),
+              GestureDetector(
+                onTap: () {
+                  _showRestoreDialog(context);
+                },
+                child: Container(
+                  width: 343.w,
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFF4AB01),
+                        Color(0xFFFFE800),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    border: Border.all(
+                      width: 3,
+                      color: Colors.yellow,
+                    ),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Restore',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.r,

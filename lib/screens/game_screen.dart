@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_line_hit_color/screens/levels_screen.dart';
+import 'package:on_line_hit_color/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/levels_data.dart';
+import '../premium_status.dart';
 import '../widgets/custom_menu_item.dart';
+import '../widgets/dialog_premium.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/grid_logic.dart';
 
@@ -25,7 +28,7 @@ class _GameState extends State<Game> {
   late GridLogic gridLogic;
   Color selectedColor = Colors.yellow;
   int cupFillPercent = 0;
-  bool levelCompleted = false; // Flag to track level completion
+  bool levelCompleted = false;
 
   @override
   void initState() {
@@ -56,13 +59,11 @@ class _GameState extends State<Game> {
   }
 
   void goToNextLevel() async {
-    if (levelCompleted) return; // Prevent multiple calls
-    levelCompleted = true; // Set flag to true
+    if (levelCompleted) return;
+    levelCompleted = true;
 
-    print('goToNextLevel called');
     setState(() {
       cupFillPercent += 10;
-      print('Updated cupFillPercent: $cupFillPercent');
     });
 
     await _saveCompletedLevel(widget.level);
@@ -85,7 +86,6 @@ class _GameState extends State<Game> {
   }
 
   void _navigateToNextLevel() {
-    print('_navigateToNextLevel called');
     if (widget.level + 1 < levels.length) {
       Navigator.pushReplacement(
         context,
@@ -99,10 +99,27 @@ class _GameState extends State<Game> {
   }
 
   void _resetGame() {
-    print('_resetGame called');
     setState(() {
       gridLogic.resetGrid();
-      levelCompleted = false; // Reset flag when game is reset
+      levelCompleted = false;
+    });
+  }
+
+  void _onColorChangeAttempt(Color color) {
+    bool isPremium = PremiumStatus.of(context).isPremium;
+
+    if (isPremium) {
+      setState(() {
+        selectedColor = color;
+      });
+    } else {
+      showPremiumOrAdDialog(context, color, _onPremiumActivated);
+    }
+  }
+
+  void _onPremiumActivated(Color color) {
+    setState(() {
+      selectedColor = color;
     });
   }
 
@@ -126,8 +143,7 @@ class _GameState extends State<Game> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      Game(level: 0, onLevelCompleted: widget.onLevelCompleted),
+                  builder: (context) => const SettingScreen(),
                 ),
               );
             },
@@ -173,12 +189,10 @@ class _GameState extends State<Game> {
                     padding: EdgeInsets.all(16.r),
                     child: GestureDetector(
                       onPanUpdate: (details) {
-                        print('onPanUpdate called');
                         gridLogic.handleDragUpdate(details, context, setState,
                             goToNextLevel, selectedColor);
                       },
                       onPanEnd: (details) {
-                        print('onPanEnd called');
                         gridLogic.handleDragEnd(setState, goToNextLevel);
                       },
                       child: Column(
@@ -242,9 +256,7 @@ class _GameState extends State<Game> {
                 padding: EdgeInsets.zero,
                 position: PopupMenuPosition.under,
                 onSelected: (Color color) {
-                  setState(() {
-                    selectedColor = color;
-                  });
+                  _onColorChangeAttempt(color);
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<Color>>[
                   const PopupMenuItem<Color>(

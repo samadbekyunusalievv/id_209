@@ -6,6 +6,8 @@ import 'package:on_line_hit_color/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/levels_data.dart';
+import '../premium_status.dart';
+import '../widgets/dialog_premium.dart';
 import 'game_screen.dart';
 
 class Levels extends StatefulWidget {
@@ -31,7 +33,6 @@ class _LevelsState extends State<Levels> {
           .map((e) => int.parse(e))
           .toList();
     });
-    print('Loaded completed levels: $completedLevels'); // Debug print
   }
 
   void _onLevelCompleted(int level) {
@@ -40,25 +41,25 @@ class _LevelsState extends State<Levels> {
         completedLevels.add(level);
       }
     });
-    print('Level completed: $level'); // Debug print
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isPremium = PremiumStatus.of(context).isPremium;
+
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/background2.png', // Replace with your image path
+              'assets/background2.png',
               fit: BoxFit.fill,
             ),
           ),
           Column(
             children: [
               AppBar(
-                automaticallyImplyLeading:
-                    false, // Removes the default back button
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
@@ -75,7 +76,7 @@ class _LevelsState extends State<Levels> {
                 actions: [
                   IconButton(
                     icon: Image.asset(
-                      'assets/setting_icon.png', // Replace with your icon path
+                      'assets/setting_icon.png',
                       width: 35.w,
                       height: 35.h,
                     ),
@@ -84,7 +85,6 @@ class _LevelsState extends State<Levels> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SettingScreen(),
-                          // Example default level
                         ),
                       );
                     },
@@ -109,17 +109,22 @@ class _LevelsState extends State<Levels> {
                   ),
                   itemCount: levels.length,
                   itemBuilder: (BuildContext context, int index) {
+                    bool isLevelLocked = index >= 30 && !isPremium;
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Game(
-                              level: index,
-                              onLevelCompleted: _onLevelCompleted,
+                        if (isLevelLocked) {
+                          showPremiumDialog(context);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Game(
+                                level: index,
+                                onLevelCompleted: _onLevelCompleted,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                       child: Stack(
                         clipBehavior: Clip.none,
@@ -163,6 +168,19 @@ class _LevelsState extends State<Levels> {
                                     Icons.check,
                                     color: Colors.black,
                                     size: 16.w,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (isLevelLocked)
+                            Positioned.fill(
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.lock,
+                                    color: Colors.white,
+                                    size: 48.sp,
                                   ),
                                 ),
                               ),
