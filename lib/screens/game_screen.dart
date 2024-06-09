@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/levels_data.dart';
 import '../premium_status.dart';
-import '../widgets/custom_menu_item.dart';
 import '../widgets/dialog_premium.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/grid_logic.dart';
@@ -29,12 +28,22 @@ class _GameState extends State<Game> {
   Color selectedColor = Colors.yellow;
   int cupFillPercent = 0;
   bool levelCompleted = false;
+  bool isMenuOpen = false;
+  int hintCount = 2; // Default hint count
 
   @override
   void initState() {
     super.initState();
     gridLogic = GridLogic(levels[widget.level]);
+    _initializeHintCount();
     _loadCupFillPercent();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final isPremium = PremiumStatus.of(context).isPremium;
+    _updateHintCount(isPremium);
   }
 
   Future<void> _loadCupFillPercent() async {
@@ -49,6 +58,19 @@ class _GameState extends State<Game> {
     await prefs.setInt('cupFillPercent', cupFillPercent);
   }
 
+  Future<void> _initializeHintCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isPremium = PremiumStatus.of(context).isPremium;
+    setState(() {
+      hintCount = prefs.getInt('hintCount') ?? (isPremium ? 10 : 2);
+    });
+  }
+
+  Future<void> _saveHintCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('hintCount', hintCount);
+  }
+
   Future<void> _saveCompletedLevel(int level) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> completedLevels = prefs.getStringList('completedLevels') ?? [];
@@ -56,6 +78,13 @@ class _GameState extends State<Game> {
       completedLevels.add(level.toString());
       await prefs.setStringList('completedLevels', completedLevels);
     }
+  }
+
+  void _updateHintCount(bool isPremium) {
+    setState(() {
+      hintCount = isPremium ? 10 : 2;
+    });
+    _saveHintCount();
   }
 
   void goToNextLevel() async {
@@ -74,6 +103,7 @@ class _GameState extends State<Game> {
         cupFillPercent = 0;
       });
       await showHintRewardDialog(context, () {
+        _incrementHintCount();
         _navigateToNextLevel();
       });
     } else {
@@ -111,6 +141,7 @@ class _GameState extends State<Game> {
     if (isPremium) {
       setState(() {
         selectedColor = color;
+        isMenuOpen = false;
       });
     } else {
       showPremiumOrAdDialog(context, color, _onPremiumActivated);
@@ -120,7 +151,16 @@ class _GameState extends State<Game> {
   void _onPremiumActivated(Color color) {
     setState(() {
       selectedColor = color;
+      isMenuOpen = false;
     });
+  }
+
+  void _incrementHintCount() {
+    setState(() {
+      hintCount = (hintCount + 1)
+          .clamp(0, 12); // Ensure the hint count does not exceed 12
+    });
+    _saveHintCount();
   }
 
   @override
@@ -185,47 +225,45 @@ class _GameState extends State<Game> {
               ),
               Expanded(
                 child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.r),
-                    child: GestureDetector(
-                      onPanUpdate: (details) {
-                        gridLogic.handleDragUpdate(details, context, setState,
-                            goToNextLevel, selectedColor);
-                      },
-                      onPanEnd: (details) {
-                        gridLogic.handleDragEnd(setState, goToNextLevel);
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: gridLogic.gridPattern.map((row) {
-                          int rowIndex = gridLogic.gridPattern.indexOf(row);
-                          return Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: row.asMap().entries.map((entry) {
-                              int colIndex = entry.key;
-                              int value = entry.value;
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: value == 0
-                                      ? Colors.transparent
-                                      : gridLogic.gridFilled[rowIndex][colIndex]
-                                          ? selectedColor
-                                          : Colors.white,
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  border: value == 0
-                                      ? Border.all(color: Colors.transparent)
-                                      : Border.all(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                ),
-                                width: 53.w,
-                                height: 53.h,
-                              );
-                            }).toList(),
-                          );
-                        }).toList(),
-                      ),
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      gridLogic.handleDragUpdate(details, context, setState,
+                          goToNextLevel, selectedColor);
+                    },
+                    onPanEnd: (details) {
+                      gridLogic.handleDragEnd(setState, goToNextLevel);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: gridLogic.gridPattern.map((row) {
+                        int rowIndex = gridLogic.gridPattern.indexOf(row);
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: row.asMap().entries.map((entry) {
+                            int colIndex = entry.key;
+                            int value = entry.value;
+                            return Container(
+                              margin: EdgeInsets.all(2.5.r),
+                              decoration: BoxDecoration(
+                                color: value == 0
+                                    ? Colors.transparent
+                                    : gridLogic.gridFilled[rowIndex][colIndex]
+                                        ? selectedColor
+                                        : Colors.white,
+                                borderRadius: BorderRadius.circular(4.r),
+                                border: value == 0
+                                    ? Border.all(color: Colors.transparent)
+                                    : Border.all(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                              ),
+                              width: 53.w,
+                              height: 53.h,
+                            );
+                          }).toList(),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),
@@ -248,47 +286,70 @@ class _GameState extends State<Game> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 26.h, left: 16.w),
-              child: PopupMenuButton<Color>(
-                padding: EdgeInsets.zero,
-                position: PopupMenuPosition.under,
-                onSelected: (Color color) {
-                  _onColorChangeAttempt(color);
-                },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<Color>>[
-                  const PopupMenuItem<Color>(
-                    value: Colors.purple,
-                    child: CustomMenuItem(color: Colors.purple),
+          Positioned(
+            bottom: 26.h,
+            left: 16.w,
+            child: Visibility(
+              visible: isMenuOpen,
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: 10.h,
+                ),
+                width: 51.w,
+                height: 266.h,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(29.r),
+                ),
+                child: Column(
+                  children: [
+                    if (selectedColor != Colors.purple)
+                      CustomMenuItem(
+                          color: Colors.purple,
+                          onSelect: _onColorChangeAttempt),
+                    if (selectedColor != Colors.green)
+                      CustomMenuItem(
+                          color: Colors.green, onSelect: _onColorChangeAttempt),
+                    if (selectedColor != Colors.orange)
+                      CustomMenuItem(
+                          color: Colors.orange,
+                          onSelect: _onColorChangeAttempt),
+                    if (selectedColor != Colors.blue)
+                      CustomMenuItem(
+                          color: Colors.blue, onSelect: _onColorChangeAttempt),
+                    if (selectedColor != Colors.red)
+                      CustomMenuItem(
+                          color: Colors.red, onSelect: _onColorChangeAttempt),
+                    if (selectedColor != Colors.yellow)
+                      CustomMenuItem(
+                          color: Colors.yellow,
+                          onSelect: _onColorChangeAttempt),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 26.h,
+            left: 16.w,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isMenuOpen = !isMenuOpen;
+                });
+              },
+              child: Container(
+                width: 51.w,
+                height: 51.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 1.w),
+                ),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: selectedColor,
+                    radius: 20.5.r,
                   ),
-                  const PopupMenuItem<Color>(
-                    value: Colors.green,
-                    child: CustomMenuItem(color: Colors.green),
-                  ),
-                  const PopupMenuItem<Color>(
-                    value: Colors.orange,
-                    child: CustomMenuItem(color: Colors.orange),
-                  ),
-                  const PopupMenuItem<Color>(
-                    value: Colors.blue,
-                    child: CustomMenuItem(color: Colors.blue),
-                  ),
-                  const PopupMenuItem<Color>(
-                    value: Colors.red,
-                    child: CustomMenuItem(color: Colors.red),
-                  ),
-                  const PopupMenuItem<Color>(
-                    value: Colors.yellow,
-                    child: CustomMenuItem(color: Colors.yellow),
-                  ),
-                ],
-                color: Colors.transparent,
-                elevation: 0,
-                child: CircleAvatar(
-                  backgroundColor: selectedColor,
-                  radius: 24.r,
                 ),
               ),
             ),
@@ -305,16 +366,17 @@ class _GameState extends State<Game> {
                     width: 27.w,
                     height: 27.h,
                   ),
-                  Gap(2.5.w),
+                  Gap(7.w),
                   Text(
                     'Hint',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.karantina(
                       color: Colors.white,
-                      fontSize: 34.sp,
+                      fontSize: 32.sp,
+                      height: 32.38 / 32,
                     ),
                   ),
-                  Gap(2.5.w),
+                  Gap(7.w),
                   Container(
                     width: 27.w,
                     height: 27.h,
@@ -324,10 +386,11 @@ class _GameState extends State<Game> {
                     ),
                     child: Center(
                       child: Text(
-                        '1',
+                        '$hintCount', // Display hint count
                         style: GoogleFonts.karantina(
                           color: Colors.white,
-                          fontSize: 20.sp,
+                          fontSize: 24.sp,
+                          height: 24.29 / 24.h,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -338,6 +401,34 @@ class _GameState extends State<Game> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomMenuItem extends StatelessWidget {
+  final Color color;
+  final void Function(Color) onSelect;
+
+  const CustomMenuItem({Key? key, required this.color, required this.onSelect})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onSelect(color),
+      child: Container(
+        margin: EdgeInsets.only(
+          bottom: 10.h,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: CircleAvatar(
+          backgroundColor: color,
+          radius: 15.5.r,
+        ),
       ),
     );
   }

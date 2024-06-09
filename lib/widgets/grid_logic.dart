@@ -5,7 +5,7 @@ class GridLogic {
   List<List<int>> gridPattern;
   late List<List<bool>> gridFilled;
   Offset? lastDragPosition;
-  bool isValidDrag = true;
+  bool isDragging = false; // Track if dragging is active
 
   GridLogic(this.gridPattern) {
     resetGrid();
@@ -15,7 +15,7 @@ class GridLogic {
     gridFilled = List.generate(gridPattern.length,
         (index) => List.filled(gridPattern[0].length, false));
     lastDragPosition = null;
-    isValidDrag = true;
+    isDragging = false; // Reset dragging state
   }
 
   void fillCell(int row, int col, Function setState) {
@@ -33,12 +33,16 @@ class GridLogic {
 
   void handleDragUpdate(DragUpdateDetails details, BuildContext context,
       Function setState, Function goToNextLevel, Color fillColor) {
+    if (!isDragging && lastDragPosition != null) {
+      return; // Do not allow dragging if dragging has stopped
+    }
+
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset localPosition = renderBox.globalToLocal(details.localPosition);
-    Offset paddingOffset = Offset(16.0.w, 16.0.w); // Same as the padding value
-    Offset adjustedPosition = localPosition - paddingOffset;
-    int i = (adjustedPosition.dy / 50).floor();
-    int j = (adjustedPosition.dx / 50).floor();
+
+    double cellSize = 53.w + 2.5.w * 2;
+    int i = (localPosition.dy / cellSize).floor();
+    int j = (localPosition.dx / cellSize).floor();
 
     if (i >= 0 &&
         i < gridPattern.length &&
@@ -47,28 +51,26 @@ class GridLogic {
       Offset currentDragPosition = Offset(i.toDouble(), j.toDouble());
 
       if (gridPattern[i][j] == 0 || gridFilled[i][j]) {
-        isValidDrag = false;
-        return;
+        return; // Do not fill invalid or already filled cells
       }
 
-      if (isVerticalOrHorizontalDrag(currentDragPosition)) {
+      if (lastDragPosition == null ||
+          isVerticalOrHorizontalDrag(currentDragPosition)) {
         fillCell(i, j, setState);
         lastDragPosition = currentDragPosition;
+        isDragging = true; // Set dragging active
 
         if (checkWin()) {
           goToNextLevel();
         }
-      } else {
-        isValidDrag = false;
       }
     }
   }
 
   void handleDragEnd(Function setState, Function goToNextLevel) {
+    isDragging = false; // Stop dragging
     if (checkWin()) {
       goToNextLevel();
-    } else {
-      lastDragPosition = null; // Allow the user to start a new drag
     }
   }
 

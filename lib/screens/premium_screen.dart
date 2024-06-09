@@ -97,7 +97,67 @@ class PremiumScreen extends StatelessWidget {
                   },
                 ),
               ),
-              Gap(400.h),
+              Gap(20.h),
+              Text(
+                'ONE LINE\nHIT COLOR',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.karantina(
+                  fontSize: 80.r,
+                  fontWeight: FontWeight.w700,
+                  height: 72 / 80.h,
+                  color: Colors.yellow,
+                ),
+              ),
+              Gap(128.h),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 16.w,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '60 Levels',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.sp,
+                          height: 28.8 / 32.h,
+                        ),
+                      ),
+                      Gap(25.h),
+                      Text(
+                        '10 Hints',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.sp,
+                          height: 28.8 / 32.h,
+                        ),
+                      ),
+                      Gap(25.h),
+                      Text(
+                        'Ad Disabling',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32.sp,
+                          height: 28.8 / 32.h,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Gap(68.h),
+              Text(
+                'for 1.99',
+                style: TextStyle(
+                  color: Colors.yellow,
+                  fontSize: 24.sp,
+                  height: 24.24 / 24.h,
+                ),
+              ),
+              Gap(16.h),
               GestureDetector(
                 onTap: () {
                   _showPremiumDialog(context);
@@ -131,41 +191,63 @@ class PremiumScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Gap(20.h),
-              GestureDetector(
-                onTap: () {
-                  _showRestoreDialog(context);
-                },
-                child: Container(
-                  width: 343.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFF4AB01),
-                        Color(0xFFFFE800),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.yellow,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Restore',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
+              Gap(40.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Terms of Use',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        _showRestoreDialog(context);
+                      },
+                      child: const Text(
+                        'Restore',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Privacy Policy',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
+          ),
+          Positioned(
+            top: 371.h,
+            left: 206.w,
+            child: Transform.rotate(
+              angle: -90 * 3.1415927 / 180,
+              child: Container(
+                width: 195.01.w,
+                height: 195.01.h,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/small_finger.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Opacity(
+                  opacity: 1.0,
+                  child: Container(),
+                ),
+              ),
+            ),
           ),
         ],
       ),
