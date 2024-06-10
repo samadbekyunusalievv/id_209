@@ -118,31 +118,106 @@ class PremiumScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '60 Levels',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          height: 28.8 / 32.h,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: '60 ',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Levels',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                       Gap(25.h),
-                      Text(
-                        '10 Hints',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          height: 28.8 / 32.h,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: '10 ',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Hints',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                       Gap(25.h),
-                      Text(
-                        'Ad Disabling',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.sp,
-                          height: 28.8 / 32.h,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: 'Ad ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Disabling',
+                                  style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -150,7 +225,7 @@ class PremiumScreen extends StatelessWidget {
               ),
               Gap(68.h),
               Text(
-                'for 1.99',
+                'for \$1.99',
                 style: TextStyle(
                   color: Colors.yellow,
                   fontSize: 24.sp,

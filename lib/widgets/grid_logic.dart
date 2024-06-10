@@ -5,9 +5,9 @@ class GridLogic {
   List<List<int>> gridPattern;
   late List<List<bool>> gridFilled;
   Offset? lastDragPosition;
-  bool isDragging = false; // Track if dragging is active
-  List<List<int>> correctSteps; // Correct steps for the current level
-  List<List<int>> hintSteps = []; // List to store hint steps
+  bool isDragging = false;
+  List<List<int>> correctSteps;
+  List<List<int>> hintSteps = [];
 
   GridLogic(this.gridPattern, this.correctSteps) {
     resetGrid();
@@ -17,11 +17,17 @@ class GridLogic {
     gridFilled = List.generate(gridPattern.length,
         (index) => List.filled(gridPattern[0].length, false));
     lastDragPosition = null;
-    isDragging = false; // Reset dragging state
-    hintSteps.clear(); // Clear hint steps on reset
+    isDragging = false;
+    hintSteps.clear();
   }
 
   void fillCell(int row, int col, Function setState) {
+    if (row < 0 ||
+        row >= gridFilled.length ||
+        col < 0 ||
+        col >= gridFilled[row].length) {
+      return; // Avoid out-of-bounds access
+    }
     setState(() {
       gridFilled[row][col] = true;
     });
@@ -37,7 +43,7 @@ class GridLogic {
   void handleDragUpdate(DragUpdateDetails details, BuildContext context,
       Function setState, Function goToNextLevel, Color fillColor) {
     if (!isDragging && lastDragPosition != null) {
-      return; // Do not allow dragging if dragging has stopped
+      return;
     }
 
     RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -54,14 +60,14 @@ class GridLogic {
       Offset currentDragPosition = Offset(i.toDouble(), j.toDouble());
 
       if (gridPattern[i][j] == 0 || gridFilled[i][j]) {
-        return; // Do not fill invalid or already filled cells
+        return;
       }
 
       if (lastDragPosition == null ||
           isVerticalOrHorizontalDrag(currentDragPosition)) {
         fillCell(i, j, setState);
         lastDragPosition = currentDragPosition;
-        isDragging = true; // Set dragging active
+        isDragging = true;
 
         if (checkWin()) {
           goToNextLevel();
@@ -71,7 +77,7 @@ class GridLogic {
   }
 
   void handleDragEnd(Function setState, Function goToNextLevel) {
-    isDragging = false; // Stop dragging
+    isDragging = false;
     if (checkWin()) {
       goToNextLevel();
     }
@@ -90,7 +96,7 @@ class GridLogic {
 
   List<List<int>> getHintSteps(int hintCount) {
     List<List<int>> hintSteps = [];
-    int startIndex = this.hintSteps.length; // Start from the last shown step
+    int startIndex = this.hintSteps.length;
     for (int i = startIndex; i < correctSteps.length; i++) {
       int row = correctSteps[i][0];
       int col = correctSteps[i][1];
