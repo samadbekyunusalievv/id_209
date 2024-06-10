@@ -6,8 +6,10 @@ class GridLogic {
   late List<List<bool>> gridFilled;
   Offset? lastDragPosition;
   bool isDragging = false; // Track if dragging is active
+  List<List<int>> correctSteps; // Correct steps for the current level
+  List<List<int>> hintSteps = []; // List to store hint steps
 
-  GridLogic(this.gridPattern) {
+  GridLogic(this.gridPattern, this.correctSteps) {
     resetGrid();
   }
 
@@ -16,6 +18,7 @@ class GridLogic {
         (index) => List.filled(gridPattern[0].length, false));
     lastDragPosition = null;
     isDragging = false; // Reset dragging state
+    hintSteps.clear(); // Clear hint steps on reset
   }
 
   void fillCell(int row, int col, Function setState) {
@@ -83,5 +86,20 @@ class GridLogic {
       }
     }
     return true;
+  }
+
+  List<List<int>> getHintSteps(int hintCount) {
+    List<List<int>> hintSteps = [];
+    int startIndex = this.hintSteps.length; // Start from the last shown step
+    for (int i = startIndex; i < correctSteps.length; i++) {
+      int row = correctSteps[i][0];
+      int col = correctSteps[i][1];
+      if (!gridFilled[row][col]) {
+        hintSteps.add([row, col]);
+        this.hintSteps.add([row, col]);
+        if (hintSteps.length == hintCount) break;
+      }
+    }
+    return hintSteps;
   }
 }

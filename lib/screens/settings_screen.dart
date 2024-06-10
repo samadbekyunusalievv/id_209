@@ -6,7 +6,7 @@ import 'package:on_line_hit_color/screens/premium_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../premium_status.dart';
-import 'main_screen_1.dart';
+import 'opening_page.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});

@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main_screen_1.dart';
+import 'opening_page.dart';
 
 class MainScreen extends StatelessWidget {
   final List<List<int>> gridPattern = [

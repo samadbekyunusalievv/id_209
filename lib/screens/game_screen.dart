@@ -6,6 +6,7 @@ import 'package:on_line_hit_color/screens/levels_screen.dart';
 import 'package:on_line_hit_color/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants/correct_steps.dart'; // Import correct steps
 import '../constants/levels_data.dart';
 import '../premium_status.dart';
 import '../widgets/dialog_premium.dart';
@@ -29,12 +30,14 @@ class _GameState extends State<Game> {
   int cupFillPercent = 0;
   bool levelCompleted = false;
   bool isMenuOpen = false;
+  bool isDragging = false; // Track if dragging has started
+  bool gameStarted = false; // Track if the game has started at least once
   int hintCount = 2; // Default hint count
 
   @override
   void initState() {
     super.initState();
-    gridLogic = GridLogic(levels[widget.level]);
+    gridLogic = GridLogic(levels[widget.level], correctSteps[widget.level]);
     _initializeHintCount();
     _loadCupFillPercent();
   }
@@ -91,6 +94,19 @@ class _GameState extends State<Game> {
     if (levelCompleted) return;
     levelCompleted = true;
 
+    final isPremium = PremiumStatus.of(context).isPremium;
+
+    // Non-premium users cannot go beyond level 30
+    if (!isPremium && widget.level >= 29) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Levels(),
+        ),
+      );
+      return;
+    }
+
     setState(() {
       cupFillPercent += 10;
     });
@@ -132,6 +148,8 @@ class _GameState extends State<Game> {
     setState(() {
       gridLogic.resetGrid();
       levelCompleted = false;
+      isDragging = false; // Reset dragging state
+      gameStarted = false; // Reset game started state
     });
   }
 
@@ -157,10 +175,44 @@ class _GameState extends State<Game> {
 
   void _incrementHintCount() {
     setState(() {
-      hintCount = (hintCount + 1)
-          .clamp(0, 12); // Ensure the hint count does not exceed 12
+      hintCount = (hintCount + 1).clamp(0, 12);
     });
     _saveHintCount();
+  }
+
+  void _showHint() {
+    if (hintCount > 0) {
+      List<List<int>> hintSteps = gridLogic.getHintSteps(2);
+      setState(() {
+        hintSteps.forEach((step) {
+          gridLogic.gridFilled[step[0]][step[1]] = true; // Mark the hint steps
+        });
+        hintCount--;
+      });
+      _saveHintCount(); // Save the updated hint count
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('No Hints Available'),
+          content: Text('You have used all your hints.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Color _getLighterColor(Color color) {
+    final hsl = HSLColor.fromColor(color);
+    final lighterHsl = hsl.withLightness((hsl.lightness + 0.2).clamp(0.0, 1.0));
+    return lighterHsl.toColor();
   }
 
   @override
@@ -227,10 +279,17 @@ class _GameState extends State<Game> {
                 child: Center(
                   child: GestureDetector(
                     onPanUpdate: (details) {
+                      setState(() {
+                        isDragging = true; // Set dragging to true on pan update
+                        gameStarted = true; // Mark the game as started
+                      });
                       gridLogic.handleDragUpdate(details, context, setState,
                           goToNextLevel, selectedColor);
                     },
                     onPanEnd: (details) {
+                      setState(() {
+                        isDragging = false; // Set dragging to false on pan end
+                      });
                       gridLogic.handleDragEnd(setState, goToNextLevel);
                     },
                     child: Column(
@@ -242,14 +301,23 @@ class _GameState extends State<Game> {
                           children: row.asMap().entries.map((entry) {
                             int colIndex = entry.key;
                             int value = entry.value;
+                            bool isHintStep = gridLogic.hintSteps.any((step) =>
+                                step[0] == rowIndex && step[1] == colIndex);
+                            Color cellColor = isHintStep
+                                ? _getLighterColor(selectedColor)
+                                : gridLogic.gridFilled[rowIndex][colIndex]
+                                    ? selectedColor
+                                    : Colors.white;
+                            int stepNumber = gridLogic.hintSteps.indexWhere(
+                                    (step) =>
+                                        step[0] == rowIndex &&
+                                        step[1] == colIndex) +
+                                1;
                             return Container(
                               margin: EdgeInsets.all(2.5.r),
                               decoration: BoxDecoration(
-                                color: value == 0
-                                    ? Colors.transparent
-                                    : gridLogic.gridFilled[rowIndex][colIndex]
-                                        ? selectedColor
-                                        : Colors.white,
+                                color:
+                                    value == 0 ? Colors.transparent : cellColor,
                                 borderRadius: BorderRadius.circular(4.r),
                                 border: value == 0
                                     ? Border.all(color: Colors.transparent)
@@ -260,6 +328,18 @@ class _GameState extends State<Game> {
                               ),
                               width: 53.w,
                               height: 53.h,
+                              child: isHintStep
+                                  ? Center(
+                                      child: Text(
+                                        '$stepNumber',
+                                        style: GoogleFonts.karantina(
+                                            fontSize: 32.r,
+                                            fontWeight: FontWeight.w400,
+                                            height: 32.38 / 32,
+                                            color: Colors.black),
+                                      ),
+                                    )
+                                  : null,
                             );
                           }).toList(),
                         );
@@ -271,21 +351,43 @@ class _GameState extends State<Game> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 16.h),
+            padding: EdgeInsets.only(
+              top: 16.h,
+              right: 8.w,
+            ),
             child: Align(
               alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Image.asset(
-                  'assets/reset_icon.png',
-                  width: 35.w,
-                  height: 35.h,
+              child: SizedBox(
+                width: 35.w,
+                height: 35.h,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: IconButton(
+                    icon: Image.asset(
+                      'assets/reset_icon.png',
+                    ),
+                    onPressed: () {
+                      _resetGame();
+                    },
+                  ),
                 ),
-                onPressed: () {
-                  _resetGame();
-                },
               ),
             ),
           ),
+          if (!gameStarted) // Conditionally render the text
+            Positioned(
+              bottom: 94.h,
+              left: 123.w,
+              child: Text(
+                "Drag to start",
+                style: GoogleFonts.karantina(
+                  fontSize: 40.r,
+                  fontWeight: FontWeight.w400,
+                  height: 40.48 / 40.h,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           Positioned(
             bottom: 26.h,
             left: 16.w,
@@ -354,49 +456,52 @@ class _GameState extends State<Game> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 26.h),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/lock_icon.png',
-                    width: 27.w,
-                    height: 27.h,
-                  ),
-                  Gap(7.w),
-                  Text(
-                    'Hint',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.karantina(
-                      color: Colors.white,
-                      fontSize: 32.sp,
-                      height: 32.38 / 32,
+          GestureDetector(
+            onTap: _showHint,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 26.h),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/lock_icon.png',
+                      width: 27.w,
+                      height: 27.h,
                     ),
-                  ),
-                  Gap(7.w),
-                  Container(
-                    width: 27.w,
-                    height: 27.h,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 1.w),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '$hintCount', // Display hint count
-                        style: GoogleFonts.karantina(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          height: 24.29 / 24.h,
-                        ),
-                        textAlign: TextAlign.center,
+                    Gap(7.w),
+                    Text(
+                      'Hint',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.karantina(
+                        color: Colors.white,
+                        fontSize: 32.sp,
+                        height: 32.38 / 32,
                       ),
                     ),
-                  ),
-                ],
+                    Gap(7.w),
+                    Container(
+                      width: 27.w,
+                      height: 27.h,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 1.w),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '$hintCount', // Display hint count
+                          style: GoogleFonts.karantina(
+                            color: Colors.white,
+                            fontSize: 24.sp,
+                            height: 24.29 / 24.h,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

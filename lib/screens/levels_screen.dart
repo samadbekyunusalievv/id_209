@@ -175,12 +175,15 @@ class _LevelsState extends State<Levels> {
                           if (isLevelLocked)
                             Positioned.fill(
                               child: Container(
-                                color: Colors.black.withOpacity(0.5),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
                                 child: Center(
-                                  child: Icon(
-                                    Icons.lock,
-                                    color: Colors.white,
-                                    size: 48.sp,
+                                  child: Image.asset(
+                                    'assets/blocked_level.png',
+                                    width: 64.w,
+                                    height: 64.h,
                                   ),
                                 ),
                               ),
