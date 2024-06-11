@@ -50,35 +50,87 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
                   Navigator.of(context).pop();
                   onDialogClose();
                 },
-                child: Container(
-                  width: 237.w,
-                  height: 50.h,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFFE800),
-                        Color(0xFFF4AB01),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.transparent,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 237.w,
+                      height: 50.h,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFE800),
+                            Color(0xFFF4AB01),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        border: Border.all(
+                          width: 3,
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.r,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 3.h,
+                      right: 5.w,
+                      child: Container(
+                        width: 221.w,
+                        height: 10.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/button/element.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      left: 8.w,
+                      child: Transform.rotate(
+                        angle: 30 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_30.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      right: 10.w,
+                      child: Transform.rotate(
+                        angle: -45 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_45.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Gap(30.h),
@@ -142,37 +194,89 @@ Future<void> showHintRewardDialog(
                   Navigator.of(context).pop();
                   onDialogClose();
                 },
-                child: Container(
-                  width: 237.w,
-                  height: 50.h,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFFE800),
-                        Color(0xFFF4AB01),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.transparent,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Collect',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 237.w,
+                      height: 50.h,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFE800),
+                            Color(0xFFF4AB01),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        border: Border.all(
+                          width: 3,
+                          color: Colors.transparent,
+                        ),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Collect',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.r,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 3.h,
+                      right: 5.w,
+                      child: Container(
+                        width: 221.w,
+                        height: 10.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/button/element.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      left: 8.w,
+                      child: Transform.rotate(
+                        angle: 30 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_30.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      right: 10.w,
+                      child: Transform.rotate(
+                        angle: -45 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_45.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ),

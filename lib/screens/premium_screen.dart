@@ -304,34 +304,86 @@ class PremiumScreen extends StatelessWidget {
                   _showPremiumDialog(context);
                   onPremiumActivated();
                 },
-                child: Container(
-                  width: 343.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFFE800),
-                        Color(0xFFF4AB01),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3.w,
-                      color: Colors.yellow,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Get Premium',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
-                        fontWeight: FontWeight.w500,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 343.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFE800),
+                            Color(0xFFF4AB01),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        border: Border.all(
+                          width: 3.w,
+                          color: Colors.yellow,
+                        ),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Get Premium',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.r,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 3.h,
+                      right: 5.w,
+                      child: Container(
+                        width: 327.w,
+                        height: 10.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/button/element.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      left: 8.w,
+                      child: Transform.rotate(
+                        angle: 30 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_30.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      right: 10.w,
+                      child: Transform.rotate(
+                        angle: -45 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_45.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Gap(40.h),

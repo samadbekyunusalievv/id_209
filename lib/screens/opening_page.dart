@@ -124,7 +124,7 @@ class _MainScreen1State extends State<MainScreen1>
     await prefs.setBool('hasCompletedMainScreen', true);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => Levels()),
+      MaterialPageRoute(builder: (context) => const Levels()),
     );
   }
 
@@ -237,36 +237,90 @@ class _MainScreen1State extends State<MainScreen1>
                 left: MediaQuery.of(context).size.width / 2 - 175.w,
                 child: GestureDetector(
                   onTap: onContinueButtonTap,
-                  child: Container(
-                    width: 350.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFFFE800),
-                          Color(0xFFF4AB01),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.transparent,
-                      ),
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Lets Play!',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.r,
-                          fontWeight: FontWeight.w500,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 350.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFFFE800),
+                              Color(0xFFF4AB01),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Lets Play!',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.r,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Positioned(
+                        bottom: 3.h,
+                        right: 5.w,
+                        child: Container(
+                          width: 334.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 7.h,
+                        left: 8.w,
+                        child: Transform.rotate(
+                          angle: 30 * (3.14159265359 / 180),
+                          child: Container(
+                            width: 8.w,
+                            height: 10.h,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/button/element_30.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 7.h,
+                        right: 10.w,
+                        child: Transform.rotate(
+                          angle: -45 * (3.14159265359 / 180),
+                          child: Container(
+                            width: 8.w,
+                            height: 16.h,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/button/element_45.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -281,7 +335,7 @@ class _MainScreen1State extends State<MainScreen1>
                     child: Container(
                       width: 87.w,
                       height: 87.h,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/small_finger.png'),
                           fit: BoxFit.fill,
