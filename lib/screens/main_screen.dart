@@ -34,7 +34,7 @@ class MainScreen extends StatelessWidget {
             top: 569.37.h,
             left: 278.w,
             child: Transform.rotate(
-              angle: -150 * 3.1415927 / 180, // Rotation of 150 degrees
+              angle: -150 * 3.1415927 / 180,
               child: Container(
                 width: 127.67.w,
                 height: 127.67.h,

@@ -17,19 +17,52 @@ class PremiumScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Congratulations!'),
-          content: Text('You are now a premium user.'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                onPremiumActivated();
-              },
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 325.w,
+            height: 150.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: Colors.black87,
             ),
-          ],
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Gap(40.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.w),
+                      child: Text(
+                        "You are now premium user!",
+                        style: TextStyle(color: Colors.white, fontSize: 20.r),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 10.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      radius: 11.r,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 18.r,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -39,19 +72,53 @@ class PremiumScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Notice'),
-          content: Text('You are no longer a premium user.'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                onPremiumRestored();
-              },
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 325.w,
+            height: 150.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: Colors.black87,
             ),
-          ],
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Gap(40.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.w),
+                      child: Text(
+                        "You are no more premium user!",
+                        style: TextStyle(color: Colors.white, fontSize: 20.r),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 10.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      radius: 11.r,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 18.r,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -64,15 +131,14 @@ class PremiumScreen extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/premium_bg.png', // Replace with your image path
+              'assets/premium_bg.png',
               fit: BoxFit.fill,
             ),
           ),
           Column(
             children: [
               AppBar(
-                automaticallyImplyLeading:
-                    false, // Removes the default back button
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
@@ -236,6 +302,7 @@ class PremiumScreen extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   _showPremiumDialog(context);
+                  onPremiumActivated();
                 },
                 child: Container(
                   width: 343.w,
@@ -250,7 +317,7 @@ class PremiumScreen extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ),
                     border: Border.all(
-                      width: 3,
+                      width: 3.w,
                       color: Colors.yellow,
                     ),
                     borderRadius: BorderRadius.circular(10.r),
@@ -261,6 +328,7 @@ class PremiumScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.r,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -273,9 +341,13 @@ class PremiumScreen extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'Terms of Use',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
@@ -283,19 +355,28 @@ class PremiumScreen extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         _showRestoreDialog(context);
+                        onPremiumRestored();
                       },
-                      child: const Text(
+                      child: Text(
                         'Restore',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
                   Expanded(
                     child: TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child: Text(
                         'Privacy Policy',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),

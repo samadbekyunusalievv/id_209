@@ -25,15 +25,14 @@ class SettingScreen extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/settings_bg.png', // Replace with your image path
+              'assets/settings_bg.png',
               fit: BoxFit.fill,
             ),
           ),
           Column(
             children: [
               AppBar(
-                automaticallyImplyLeading:
-                    false, // Removes the default back button
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
@@ -78,13 +77,31 @@ class SettingScreen extends StatelessWidget {
                     Padding(
                       padding:
                           EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
-                      child: Text(
+                      child: Text.rich(
+                        TextSpan(
+                          text:
+                              'Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.r,
+                              height: 19.09 / 16.h,
+                              fontWeight: FontWeight.w500),
+                          children: const <TextSpan>[
+                            TextSpan(
+                              text: '+ads free for ',
+                            ),
+                            TextSpan(
+                              text: '\$1.99',
+                              style: TextStyle(
+                                  color: Colors.yellow,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            TextSpan(
+                              text: '/monthly',
+                            ),
+                          ],
+                        ),
                         textAlign: TextAlign.center,
-                        'Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints + ads free for 1,99/monthly',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            height: 1.1.h),
                       ),
                     ),
                     Gap(20.h),
@@ -126,7 +143,7 @@ class SettingScreen extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 20.r,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
@@ -149,7 +166,12 @@ class SettingScreen extends StatelessWidget {
                       },
                       child: Text(
                         'Restore',
-                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.r,
+                          height: 16.71 / 14.h,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     )
                   ],
@@ -178,21 +200,17 @@ class SettingScreen extends StatelessWidget {
                     child: Text(
                       'Privacy Policy',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.r,
-                      ),
+                          color: Colors.white,
+                          fontSize: 16.r,
+                          height: 19.09 / 16.h,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
               ),
               Gap(20.h),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen1()),
-                  );
-                },
+                onTap: () {},
                 child: Container(
                   width: 325.w,
                   height: 50.h,
@@ -210,6 +228,8 @@ class SettingScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.r,
+                        height: 19.09 / 16.h,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

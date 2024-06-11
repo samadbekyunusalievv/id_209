@@ -6,7 +6,7 @@ import 'package:on_line_hit_color/screens/levels_screen.dart';
 import 'package:on_line_hit_color/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/correct_steps.dart'; // Import correct steps
+import '../constants/correct_steps.dart';
 import '../constants/levels_data.dart';
 import '../premium_status.dart';
 import '../widgets/dialog_premium.dart';
@@ -17,8 +17,7 @@ class Game extends StatefulWidget {
   final int level;
   final Function(int) onLevelCompleted;
 
-  const Game({Key? key, required this.level, required this.onLevelCompleted})
-      : super(key: key);
+  const Game({super.key, required this.level, required this.onLevelCompleted});
 
   @override
   _GameState createState() => _GameState();
@@ -30,9 +29,9 @@ class _GameState extends State<Game> {
   int cupFillPercent = 0;
   bool levelCompleted = false;
   bool isMenuOpen = false;
-  bool isDragging = false; // Track if dragging has started
-  bool gameStarted = false; // Track if the game has started at least once
-  int hintCount = 2; // Default hint count
+  bool isDragging = false;
+  bool gameStarted = false;
+  int hintCount = 2;
 
   @override
   void initState() {
@@ -96,7 +95,6 @@ class _GameState extends State<Game> {
 
     final isPremium = PremiumStatus.of(context).isPremium;
 
-    // Non-premium users cannot go beyond level 30
     if (!isPremium && widget.level >= 29) {
       Navigator.pushReplacement(
         context,
@@ -189,7 +187,7 @@ class _GameState extends State<Game> {
         });
         hintCount--;
       });
-      _saveHintCount(); // Save the updated hint count
+      _saveHintCount();
     } else {
       showDialog(
         context: context,
@@ -280,8 +278,8 @@ class _GameState extends State<Game> {
                   child: GestureDetector(
                     onPanUpdate: (details) {
                       setState(() {
-                        isDragging = true; // Set dragging to true on pan update
-                        gameStarted = true; // Mark the game as started
+                        isDragging = true;
+                        gameStarted = true;
                       });
                       gridLogic.handleDragUpdate(details, context, setState,
                           goToNextLevel, selectedColor);
@@ -374,7 +372,7 @@ class _GameState extends State<Game> {
               ),
             ),
           ),
-          if (!gameStarted) // Conditionally render the text
+          if (!gameStarted)
             Positioned(
               bottom: 94.h,
               left: 123.w,

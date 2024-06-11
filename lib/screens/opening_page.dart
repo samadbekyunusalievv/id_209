@@ -32,7 +32,7 @@ class _MainScreen1State extends State<MainScreen1>
     super.initState();
 
     _animationController = AnimationController(
-      duration: const Duration(seconds: 3), // Animation duration
+      duration: const Duration(seconds: 3),
       vsync: this,
     );
 
@@ -243,7 +243,7 @@ class _MainScreen1State extends State<MainScreen1>
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           Color(0xFFFFE800),
                           Color(0xFFF4AB01),
@@ -263,7 +263,7 @@ class _MainScreen1State extends State<MainScreen1>
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.r,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
