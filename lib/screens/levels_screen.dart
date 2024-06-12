@@ -67,7 +67,7 @@ class _LevelsState extends State<Levels> {
                   'Select a level',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.karantina(
-                    fontSize: 32.sp,
+                    fontSize: 32.r,
                     fontWeight: FontWeight.w700,
                     height: 0.9.h,
                     color: Colors.yellow,
@@ -110,6 +110,7 @@ class _LevelsState extends State<Levels> {
                   itemCount: levels.length,
                   itemBuilder: (BuildContext context, int index) {
                     bool isLevelLocked = index >= 30 && !isPremium;
+                    bool isLevelCompleted = completedLevels.contains(index);
                     return GestureDetector(
                       onTap: () {
                         if (isLevelLocked) {
@@ -133,7 +134,7 @@ class _LevelsState extends State<Levels> {
                             width: 64.w,
                             height: 64.h,
                             decoration: BoxDecoration(
-                              color: completedLevels.contains(index)
+                              color: isLevelCompleted
                                   ? Colors.yellow
                                   : Colors.white,
                               borderRadius: BorderRadius.circular(4.r),
@@ -147,12 +148,14 @@ class _LevelsState extends State<Levels> {
                                 '${index + 1}',
                                 style: GoogleFonts.karantina(
                                   color: Colors.black,
-                                  fontSize: 48.sp,
+                                  fontSize: 48.r,
+                                  height: 48.58 / 48.h,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
                           ),
-                          if (completedLevels.contains(index))
+                          if (isLevelCompleted && !isLevelLocked)
                             Positioned(
                               top: -7.h,
                               right: -4.w,
@@ -175,12 +178,15 @@ class _LevelsState extends State<Levels> {
                           if (isLevelLocked)
                             Positioned.fill(
                               child: Container(
-                                color: Colors.black.withOpacity(0.5),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
                                 child: Center(
-                                  child: Icon(
-                                    Icons.lock,
-                                    color: Colors.white,
-                                    size: 48.sp,
+                                  child: Image.asset(
+                                    'assets/blocked_level.png',
+                                    width: 64.w,
+                                    height: 64.h,
                                   ),
                                 ),
                               ),

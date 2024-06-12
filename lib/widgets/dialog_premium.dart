@@ -26,14 +26,37 @@ void showPremiumDialog(BuildContext context) {
                   Gap(40.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.w),
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      '1 Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints ads free 1,99/monthly',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        height: 23 / 20.h,
+                    child: Text.rich(
+                      TextSpan(
+                        text:
+                            'Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.r,
+                          fontWeight: FontWeight.w500,
+                          height: 23.87 / 20.h,
+                        ),
+                        children: const <TextSpan>[
+                          TextSpan(
+                            text: '+ads free\nfor ',
+                          ),
+                          TextSpan(
+                            text: '\$1.99',
+                            style: TextStyle(
+                              color: Colors.yellow,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '/monthly',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Gap(18.h),
@@ -76,7 +99,11 @@ void showPremiumDialog(BuildContext context) {
                         child: Text(
                           'See Details',
                           style: TextStyle(
-                              color: Colors.black, fontSize: 20.r, height: 1.h),
+                            color: Colors.black,
+                            fontSize: 20.r,
+                            height: 23.87 / 20.h,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -86,8 +113,10 @@ void showPremiumDialog(BuildContext context) {
                       child: Text(
                         'Restore',
                         style: TextStyle(
-                          fontSize: 14.sp,
+                          fontSize: 14.r,
                           color: Colors.white,
+                          height: 16.71 / 14.h,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       onPressed: () {}),
@@ -141,14 +170,31 @@ void showPremiumOrAdDialog(
                   Gap(40.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.w),
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      '1 Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints ads free 1,99/monthly',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.sp,
-                        height: 23 / 20.h,
+                    child: Text.rich(
+                      TextSpan(
+                        text:
+                            'Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.r,
+                            height: 23.87 / 20.h,
+                            fontWeight: FontWeight.w500),
+                        children: const <TextSpan>[
+                          TextSpan(
+                            text: '+ads free\nfor ',
+                          ),
+                          TextSpan(
+                            text: '\$1.99',
+                            style: TextStyle(
+                                color: Colors.yellow,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          TextSpan(
+                            text: '/monthly',
+                          ),
+                        ],
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Gap(18.h),
@@ -191,7 +237,11 @@ void showPremiumOrAdDialog(
                         child: Text(
                           'See Details',
                           style: TextStyle(
-                              color: Colors.black, fontSize: 20.r, height: 1.h),
+                            color: Colors.black,
+                            fontSize: 20.r,
+                            height: 23.87 / 20.h,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -201,8 +251,10 @@ void showPremiumOrAdDialog(
                       child: Text(
                         'Restore',
                         style: TextStyle(
-                          fontSize: 14.sp,
+                          fontSize: 14.r,
                           color: Colors.white,
+                          height: 16.71 / 14.h,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       onPressed: () {}),

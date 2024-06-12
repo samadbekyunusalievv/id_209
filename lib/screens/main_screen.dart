@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main_screen_1.dart';
+import 'opening_page.dart';
 
 class MainScreen extends StatelessWidget {
   final List<List<int>> gridPattern = [
@@ -34,7 +34,7 @@ class MainScreen extends StatelessWidget {
             top: 569.37.h,
             left: 278.w,
             child: Transform.rotate(
-              angle: -150 * 3.1415927 / 180, // Rotation of 150 degrees
+              angle: -150 * 3.1415927 / 180,
               child: Container(
                 width: 127.67.w,
                 height: 127.67.h,
@@ -107,36 +107,90 @@ class MainScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MainScreen1()),
                     );
                   },
-                  child: Container(
-                    width: 350.w,
-                    height: 50.h,
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFFFE800),
-                          Color(0xFFF4AB01),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.transparent,
-                      ),
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.r,
-                          fontWeight: FontWeight.bold,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: 350.w,
+                        height: 50.h,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFFFE800),
+                              Color(0xFFF4AB01),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          border: Border.all(
+                            width: 3,
+                            color: Colors.transparent,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.r,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      Positioned(
+                        bottom: 3.h,
+                        right: 5.w,
+                        child: Container(
+                          width: 334.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 7.h,
+                        left: 8.w,
+                        child: Transform.rotate(
+                          angle: 30 * (3.14159265359 / 180),
+                          child: Container(
+                            width: 8.w,
+                            height: 10.h,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/button/element_30.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 7.h,
+                        right: 10.w,
+                        child: Transform.rotate(
+                          angle: -45 * (3.14159265359 / 180),
+                          child: Container(
+                            width: 8.w,
+                            height: 16.h,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/button/element_45.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Gap(20.h),

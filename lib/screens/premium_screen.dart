@@ -17,19 +17,52 @@ class PremiumScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Congratulations!'),
-          content: Text('You are now a premium user.'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                onPremiumActivated();
-              },
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 325.w,
+            height: 150.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: Colors.black87,
             ),
-          ],
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Gap(40.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.w),
+                      child: Text(
+                        "You are now premium user!",
+                        style: TextStyle(color: Colors.white, fontSize: 20.r),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 10.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      radius: 11.r,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 18.r,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -39,19 +72,53 @@ class PremiumScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Notice'),
-          content: Text('You are no longer a premium user.'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                onPremiumRestored();
-              },
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Container(
+            width: 325.w,
+            height: 150.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: Colors.black87,
             ),
-          ],
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Gap(40.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30.w),
+                      child: Text(
+                        "You are no more premium user!",
+                        style: TextStyle(color: Colors.white, fontSize: 20.r),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  top: 10.h,
+                  right: 10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      radius: 11.r,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                        size: 18.r,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         );
       },
     );
@@ -64,15 +131,14 @@ class PremiumScreen extends StatelessWidget {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/premium_bg.png', // Replace with your image path
+              'assets/premium_bg.png',
               fit: BoxFit.fill,
             ),
           ),
           Column(
             children: [
               AppBar(
-                automaticallyImplyLeading:
-                    false, // Removes the default back button
+                automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 centerTitle: true,
@@ -97,75 +163,299 @@ class PremiumScreen extends StatelessWidget {
                   },
                 ),
               ),
-              Gap(400.h),
+              Gap(20.h),
+              Text(
+                'ONE LINE\nHIT COLOR',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.karantina(
+                  fontSize: 80.r,
+                  fontWeight: FontWeight.w700,
+                  height: 72 / 80.h,
+                  color: Colors.yellow,
+                ),
+              ),
+              Gap(128.h),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 16.w,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: '60 ',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Levels',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gap(25.h),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: '10 ',
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Hints',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gap(25.h),
+                      Row(
+                        children: [
+                          Container(
+                            width: 13.w,
+                            height: 13.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Gap(10.w),
+                          Text.rich(
+                            TextSpan(
+                              text: 'Ad ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.sp,
+                                height: 28.8 / 32.h,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Disabling',
+                                  style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontSize: 32.sp,
+                                    height: 28.8 / 32.h,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Gap(68.h),
+              Text(
+                'for \$1.99',
+                style: TextStyle(
+                  color: Colors.yellow,
+                  fontSize: 24.sp,
+                  height: 24.24 / 24.h,
+                ),
+              ),
+              Gap(16.h),
               GestureDetector(
                 onTap: () {
                   _showPremiumDialog(context);
+                  onPremiumActivated();
                 },
-                child: Container(
-                  width: 343.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFFFE800),
-                        Color(0xFFF4AB01),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.yellow,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Get Premium',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 343.w,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFFFE800),
+                            Color(0xFFF4AB01),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        border: Border.all(
+                          width: 3.w,
+                          color: Colors.yellow,
+                        ),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Get Premium',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.r,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 3.h,
+                      right: 5.w,
+                      child: Container(
+                        width: 327.w,
+                        height: 10.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/button/element.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      left: 8.w,
+                      child: Transform.rotate(
+                        angle: 30 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_30.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.h,
+                      right: 10.w,
+                      child: Transform.rotate(
+                        angle: -45 * (3.14159265359 / 180),
+                        child: Container(
+                          width: 8.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/button/element_45.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Gap(20.h),
-              GestureDetector(
-                onTap: () {
-                  _showRestoreDialog(context);
-                },
-                child: Container(
-                  width: 343.w,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFF4AB01),
-                        Color(0xFFFFE800),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                    border: Border.all(
-                      width: 3,
-                      color: Colors.yellow,
-                    ),
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Restore',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.r,
+              Gap(40.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Terms of Use',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        _showRestoreDialog(context);
+                        onPremiumRestored();
+                      },
+                      child: Text(
+                        'Restore',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Privacy Policy',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14.r,
+                            height: 16.71 / 14.h,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
+          ),
+          Positioned(
+            top: 371.h,
+            left: 206.w,
+            child: Transform.rotate(
+              angle: -90 * 3.1415927 / 180,
+              child: Container(
+                width: 195.01.w,
+                height: 195.01.h,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/small_finger.png'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                child: Opacity(
+                  opacity: 1.0,
+                  child: Container(),
+                ),
+              ),
+            ),
           ),
         ],
       ),

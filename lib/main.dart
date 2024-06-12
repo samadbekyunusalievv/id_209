@@ -10,7 +10,6 @@ import 'screens/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Ensure the shared preferences are initialized before the app starts
   final prefs = await SharedPreferences.getInstance();
   final hasCompletedMainScreen =
       prefs.getBool('hasCompletedMainScreen') ?? false;
