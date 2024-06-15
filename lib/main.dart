@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:on_line_hit_color/screens/levels_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'premium_status.dart';
@@ -65,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(375, 812),
         builder: (context, child) {
           return MaterialApp(
-            home: widget.hasCompletedMainScreen ? MainScreen() : MainScreen(),
+            home: widget.hasCompletedMainScreen ? Levels() : MainScreen(),
             debugShowCheckedModeBanner: false,
           );
         },
