@@ -49,7 +49,7 @@ class GridLogic {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     Offset localPosition = renderBox.globalToLocal(details.localPosition);
 
-    double cellSize = 53.w + 2.5.w * 2;
+    double cellSize = 53.r + 2.5.r * 2;
     int i = (localPosition.dy / cellSize).floor();
     int j = (localPosition.dx / cellSize).floor();
 

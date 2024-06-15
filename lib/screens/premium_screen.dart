@@ -170,11 +170,11 @@ class PremiumScreen extends StatelessWidget {
                 style: GoogleFonts.karantina(
                   fontSize: 80.r,
                   fontWeight: FontWeight.w700,
-                  height: 72 / 80.h,
+                  height: (72.r / 80.r),
                   color: Colors.yellow,
                 ),
               ),
-              Gap(128.h),
+              Gap(125.h),
               Padding(
                 padding: EdgeInsets.only(
                   left: 16.w,
@@ -200,16 +200,16 @@ class PremiumScreen extends StatelessWidget {
                               text: '60 ',
                               style: TextStyle(
                                 color: Colors.yellow,
-                                fontSize: 32.sp,
-                                height: 28.8 / 32.h,
+                                fontSize: 32.r,
+                                height: (28.8 / 32).h,
                               ),
                               children: [
                                 TextSpan(
                                   text: 'Levels',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 32.sp,
-                                    height: 28.8 / 32.h,
+                                    fontSize: 32.r,
+                                    height: (28.8 / 32).h,
                                   ),
                                 ),
                               ],
@@ -234,16 +234,16 @@ class PremiumScreen extends StatelessWidget {
                               text: '10 ',
                               style: TextStyle(
                                 color: Colors.yellow,
-                                fontSize: 32.sp,
-                                height: 28.8 / 32.h,
+                                fontSize: 32.r,
+                                height: (28.8 / 32).h,
                               ),
                               children: [
                                 TextSpan(
                                   text: 'Hints',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 32.sp,
-                                    height: 28.8 / 32.h,
+                                    fontSize: 32.r,
+                                    height: (28.8 / 32).h,
                                   ),
                                 ),
                               ],
@@ -268,16 +268,16 @@ class PremiumScreen extends StatelessWidget {
                               text: 'Ad ',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 32.sp,
-                                height: 28.8 / 32.h,
+                                fontSize: 32.r,
+                                height: (28.8 / 32).h,
                               ),
                               children: [
                                 TextSpan(
                                   text: 'Disabling',
                                   style: TextStyle(
                                     color: Colors.yellow,
-                                    fontSize: 32.sp,
-                                    height: 28.8 / 32.h,
+                                    fontSize: 32.r,
+                                    height: (28.8 / 32).h,
                                   ),
                                 ),
                               ],

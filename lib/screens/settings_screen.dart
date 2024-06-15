@@ -6,7 +6,6 @@ import 'package:on_line_hit_color/screens/premium_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../premium_status.dart';
-import 'opening_page.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -65,9 +64,8 @@ class SettingScreen extends StatelessWidget {
               Gap(30.h),
               Container(
                 width: 325.w,
-                height: 216.h,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1),
+                  border: Border.all(color: Colors.white, width: 1.r),
                   borderRadius: BorderRadius.circular(10.r),
                   color: Colors.black,
                 ),
@@ -76,15 +74,14 @@ class SettingScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+                          EdgeInsets.only(top: 16.r, left: 16.r, right: 16.r),
                       child: Text.rich(
                         TextSpan(
                           text:
                               'Try premium to pass all 60 levels, customize the line’s color and 10 bonus hints',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16.r,
-                              height: 19.09 / 16.h,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500),
                           children: const <TextSpan>[
                             TextSpan(
@@ -134,7 +131,7 @@ class SettingScreen extends StatelessWidget {
                                 end: Alignment.bottomCenter,
                               ),
                               border: Border.all(
-                                width: 3,
+                                width: 3.r,
                                 color: Colors.yellow,
                               ),
                               borderRadius: BorderRadius.circular(10.r),
@@ -146,6 +143,7 @@ class SettingScreen extends StatelessWidget {
                                   color: Colors.black,
                                   fontSize: 20.r,
                                   fontWeight: FontWeight.w500,
+                                  height: (23.87 / 20).h,
                                 ),
                               ),
                             ),
@@ -187,9 +185,7 @@ class SettingScreen extends StatelessWidget {
                             top: 7.h,
                             right: 10.w,
                             child: Transform.rotate(
-                              angle: -45 *
-                                  (3.14159265359 /
-                                      180), // 45 degrees to radians
+                              angle: -45 * (3.14159265359 / 180),
                               child: Container(
                                 width: 8.w,
                                 height: 16.h,
@@ -208,6 +204,8 @@ class SettingScreen extends StatelessWidget {
                     ),
                     Gap(20.h),
                     TextButton(
+                      style: ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.zero)),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -226,7 +224,7 @@ class SettingScreen extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14.r,
-                          height: 16.71 / 14.h,
+                          height: (16.71 / 14).h,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -236,15 +234,10 @@ class SettingScreen extends StatelessWidget {
               ),
               Gap(20.h),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen1()),
-                  );
-                },
+                onTap: () {},
                 child: Container(
                   width: 325.w,
-                  height: 50.h,
+                  height: 50.r,
                   decoration: BoxDecoration(
                     color: Colors.black,
                     border: Border.all(
@@ -259,7 +252,7 @@ class SettingScreen extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.r,
-                          height: 19.09 / 16.h,
+                          height: (19.09 / 16).h,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -285,7 +278,7 @@ class SettingScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.r,
-                        height: 19.09 / 16.h,
+                        height: (19.09 / 16).h,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

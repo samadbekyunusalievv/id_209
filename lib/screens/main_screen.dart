@@ -63,7 +63,7 @@ class MainScreen extends StatelessWidget {
                   style: GoogleFonts.karantina(
                     fontSize: 96.r,
                     fontWeight: FontWeight.w700,
-                    height: 0.9.h,
+                    height: (86.4.h / 96.h),
                     color: Colors.yellow,
                   ),
                 ),
@@ -133,10 +133,10 @@ class MainScreen extends StatelessWidget {
                           child: Text(
                             'Continue',
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.r,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                color: Colors.black,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 1.h),
                           ),
                         ),
                       ),

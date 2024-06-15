@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'premium_status.dart';
-import 'screens/levels_screen.dart';
 import 'screens/main_screen.dart';
 
 void main() async {
@@ -66,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(375, 812),
         builder: (context, child) {
           return MaterialApp(
-            home: widget.hasCompletedMainScreen ? Levels() : MainScreen(),
+            home: widget.hasCompletedMainScreen ? MainScreen() : MainScreen(),
             debugShowCheckedModeBanner: false,
           );
         },

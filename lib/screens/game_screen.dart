@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -259,7 +260,7 @@ class _GameState extends State<Game> {
           style: GoogleFonts.karantina(
             fontSize: 32.sp,
             fontWeight: FontWeight.w700,
-            height: 32.38 / 32.h,
+            height: (32.38 / 32).h,
             color: Colors.yellow,
           ),
         ),
@@ -286,7 +287,7 @@ class _GameState extends State<Game> {
                     },
                     onPanEnd: (details) {
                       setState(() {
-                        isDragging = false; // Set dragging to false on pan end
+                        isDragging = false;
                       });
                       gridLogic.handleDragEnd(setState, goToNextLevel);
                     },
@@ -320,12 +321,25 @@ class _GameState extends State<Game> {
                                 border: value == 0
                                     ? Border.all(color: Colors.transparent)
                                     : Border.all(
-                                        color: Colors.black,
+                                        color: gridLogic.gridFilled[rowIndex]
+                                                [colIndex]
+                                            ? selectedColor
+                                            : Colors.white,
                                         width: 1,
                                       ),
+                                boxShadow: value == 0
+                                    ? []
+                                    : [
+                                        BoxShadow(
+                                          blurRadius: 5,
+                                          offset: const Offset(4, 4),
+                                          color: Colors.black.withOpacity(0.5),
+                                          inset: true,
+                                        ),
+                                      ],
                               ),
-                              width: 53.w,
-                              height: 53.h,
+                              width: 53.r,
+                              height: 53.r,
                               child: isHintStep
                                   ? Center(
                                       child: Text(
@@ -333,7 +347,7 @@ class _GameState extends State<Game> {
                                         style: GoogleFonts.karantina(
                                             fontSize: 32.r,
                                             fontWeight: FontWeight.w400,
-                                            height: 32.38 / 32,
+                                            height: (32.38 / 32).h,
                                             color: Colors.black),
                                       ),
                                     )
@@ -374,15 +388,18 @@ class _GameState extends State<Game> {
           ),
           if (!gameStarted)
             Positioned(
-              bottom: 94.h,
+              bottom: 85.r,
               left: 123.w,
-              child: Text(
-                "Drag to start",
-                style: GoogleFonts.karantina(
-                  fontSize: 40.r,
-                  fontWeight: FontWeight.w400,
-                  height: 40.48 / 40.h,
-                  color: Colors.white,
+              right: 123.w,
+              child: Center(
+                child: Text(
+                  "Drag to start",
+                  style: GoogleFonts.karantina(
+                    fontSize: 40.r,
+                    fontWeight: FontWeight.w400,
+                    height: (40.48 / 40).h,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -461,12 +478,13 @@ class _GameState extends State<Game> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 26.h),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
                       'assets/lock_icon.png',
-                      width: 27.w,
-                      height: 27.h,
+                      width: 27.r,
+                      height: 27.r,
                     ),
                     Gap(7.w),
                     Text(
@@ -474,28 +492,28 @@ class _GameState extends State<Game> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.karantina(
                         color: Colors.white,
-                        fontSize: 32.sp,
-                        height: 32.38 / 32,
+                        fontSize: 32.r,
+                        height: (32.38 / 32).h,
                       ),
                     ),
                     Gap(7.w),
                     Container(
-                      width: 27.w,
-                      height: 27.h,
+                      width: 27.r,
+                      height: 27.r,
+                      padding: EdgeInsets.zero,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 1.w),
+                        border: Border.all(color: Colors.white, width: 1),
                         shape: BoxShape.circle,
                       ),
-                      child: Center(
-                        child: Text(
-                          '$hintCount', // Display hint count
-                          style: GoogleFonts.karantina(
-                            color: Colors.white,
-                            fontSize: 24.sp,
-                            height: 24.29 / 24.h,
-                          ),
-                          textAlign: TextAlign.center,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$hintCount',
+                        style: GoogleFonts.karantina(
+                          color: Colors.white,
+                          fontSize: 24.r,
+                          height: (24.29.h / 24.h),
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],

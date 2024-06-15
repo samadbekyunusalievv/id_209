@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:on_line_hit_color/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constants/levels_data.dart';
 import '../premium_status.dart';
 import '../widgets/dialog_premium.dart';
 import 'game_screen.dart';
@@ -67,9 +67,9 @@ class _LevelsState extends State<Levels> {
                   'Select a level',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.karantina(
-                    fontSize: 32.r,
+                    fontSize: 32.sp,
                     fontWeight: FontWeight.w700,
-                    height: 0.9.h,
+                    height: 1.h,
                     color: Colors.yellow,
                   ),
                 ),
@@ -98,103 +98,131 @@ class _LevelsState extends State<Levels> {
               ),
               Gap(30.h),
               Expanded(
-                child: GridView.builder(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 28.w, vertical: 7.h),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 1,
-                    crossAxisSpacing: 15.w,
-                    mainAxisSpacing: 15.h,
-                  ),
-                  itemCount: levels.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    bool isLevelLocked = index >= 30 && !isPremium;
-                    bool isLevelCompleted = completedLevels.contains(index);
-                    return GestureDetector(
-                      onTap: () {
-                        if (isLevelLocked) {
-                          showPremiumDialog(context);
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Game(
-                                level: index,
-                                onLevelCompleted: _onLevelCompleted,
+                child: Center(
+                  child: GridView.builder(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 28.r, vertical: 7.r),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 15.r,
+                      mainAxisSpacing: 15.r,
+                    ),
+                    itemCount: 60, // Total levels are 60
+                    itemBuilder: (BuildContext context, int index) {
+                      bool isLevelLocked = !isPremium && index >= 30;
+                      bool isSequentialLocked = !isPremium &&
+                          index > 0 &&
+                          !completedLevels.contains(index - 1);
+                      bool isLevelCompleted = completedLevels.contains(index);
+                      Color levelColor =
+                          isLevelCompleted ? Colors.yellow : Colors.white;
+                      Color borderColor = Colors.white;
+
+                      if (isLevelLocked) {
+                        levelColor = Color(0xFF5A5A5A);
+                        borderColor = Color(0xFF5A5A5A);
+                      } else if (isLevelCompleted) {
+                        borderColor = Colors.yellow;
+                      }
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (isLevelLocked) {
+                            showPremiumDialog(context);
+                          } else if (isSequentialLocked && index < 30) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Complete previous levels to unlock this one.'),
                               ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            width: 64.w,
-                            height: 64.h,
-                            decoration: BoxDecoration(
-                              color: isLevelCompleted
-                                  ? Colors.yellow
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(4.r),
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 1.w,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${index + 1}',
-                                style: GoogleFonts.karantina(
-                                  color: Colors.black,
-                                  fontSize: 48.r,
-                                  height: 48.58 / 48.h,
-                                  fontWeight: FontWeight.w400,
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Game(
+                                  level: index,
+                                  onLevelCompleted: _onLevelCompleted,
                                 ),
                               ),
-                            ),
+                            );
+                          }
+                        },
+                        child: SizedBox(
+                          width: 70.w,
+                          height: 70.w,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Container(
+                                  width: 64.w,
+                                  height: 64.w,
+                                  decoration: BoxDecoration(
+                                    color: levelColor,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                    border: Border.all(
+                                      color: borderColor,
+                                      width: 1,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 5,
+                                        offset: const Offset(4, 4),
+                                        color: Colors.black.withOpacity(0.5),
+                                        inset: true,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: isLevelLocked ||
+                                            (index >= 30 && !isPremium)
+                                        ? Image.asset(
+                                            'assets/lockicon.png',
+                                            width: 26.r,
+                                            height: 26.r,
+                                            color:
+                                                Colors.black.withOpacity(0.7),
+                                          )
+                                        : Text(
+                                            '${index + 1}',
+                                            style: GoogleFonts.karantina(
+                                              color: Colors.black,
+                                              fontSize: 48.r,
+                                              height: 1.h,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                              if (isLevelCompleted && !isLevelLocked)
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 22.w,
+                                    height: 22.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.check,
+                                        color: Colors.black,
+                                        size: 16.r,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                          if (isLevelCompleted && !isLevelLocked)
-                            Positioned(
-                              top: -7.h,
-                              right: -4.w,
-                              child: Container(
-                                width: 22.w,
-                                height: 22.h,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.check,
-                                    color: Colors.black,
-                                    size: 16.w,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          if (isLevelLocked)
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.7),
-                                  borderRadius: BorderRadius.circular(4.r),
-                                ),
-                                child: Center(
-                                  child: Image.asset(
-                                    'assets/blocked_level.png',
-                                    width: 64.w,
-                                    height: 64.h,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

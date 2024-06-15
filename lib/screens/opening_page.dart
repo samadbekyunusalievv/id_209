@@ -178,7 +178,7 @@ class _MainScreen1State extends State<MainScreen1>
                     style: GoogleFonts.karantina(
                       fontSize: 64.r,
                       fontWeight: FontWeight.w700,
-                      height: 57.6 / 64.h,
+                      height: 57.6.h / 64.h,
                       color: Colors.yellow,
                     ),
                   ),
@@ -192,7 +192,7 @@ class _MainScreen1State extends State<MainScreen1>
                       fontSize: 24.r,
                       color:
                           gridFilledCompletely ? Colors.yellow : Colors.white,
-                      height: 28.64 / 24.h,
+                      height: 28.64.h / 24.h,
                     ),
                   ),
                   Gap(30.h),
@@ -264,8 +264,9 @@ class _MainScreen1State extends State<MainScreen1>
                             'Lets Play!',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.r,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
+                              height: 1.h,
                             ),
                           ),
                         ),

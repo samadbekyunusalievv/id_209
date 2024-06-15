@@ -38,7 +38,7 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
               Text(
                 'Level ${level + 1}',
                 style: GoogleFonts.karantina(
-                  fontSize: 48.sp,
+                  fontSize: 48.r,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   height: 0.9.h,
@@ -76,9 +76,9 @@ Future<void> showLevelCompletionDialog(BuildContext context, int level,
                         child: Text(
                           'Next',
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.r,
-                          ),
+                              color: Colors.black,
+                              fontSize: 20.r,
+                              height: (23.87.h / 20.h)),
                         ),
                       ),
                     ),
@@ -172,17 +172,17 @@ Future<void> showHintRewardDialog(
               Text(
                 'Reward!',
                 style: GoogleFonts.karantina(
-                  fontSize: 40.sp,
+                  fontSize: 40.r,
                   fontWeight: FontWeight.w700,
                   color: Colors.yellow,
                   height: 1.h,
                 ),
               ),
-              Gap(197.h),
+              Gap(220.h),
               Text(
                 '1 Hint',
                 style: GoogleFonts.karantina(
-                  fontSize: 64.sp,
+                  fontSize: 64.r,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                   height: 0.9.h,
@@ -220,9 +220,9 @@ Future<void> showHintRewardDialog(
                         child: Text(
                           'Collect',
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.r,
-                          ),
+                              color: Colors.black,
+                              fontSize: 20.r,
+                              height: (23.87.h / 20.h)),
                         ),
                       ),
                     ),
