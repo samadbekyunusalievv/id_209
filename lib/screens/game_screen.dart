@@ -390,14 +390,13 @@ class _GameState extends State<Game> {
             Positioned(
               bottom: 85.r,
               left: 123.w,
-              right: 123.w,
               child: Center(
                 child: Text(
                   "Drag to start",
                   style: GoogleFonts.karantina(
                     fontSize: 40.r,
                     fontWeight: FontWeight.w400,
-                    height: (40.48 / 40).h,
+                    height: (40.48.h / 40.h),
                     color: Colors.white,
                   ),
                 ),
