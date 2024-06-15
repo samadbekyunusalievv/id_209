@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart'
+    as inset;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:on_line_hit_color/screens/opening_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'opening_page.dart';
 
 class MainScreen extends StatelessWidget {
   final List<List<int>> gridPattern = [
@@ -86,13 +87,17 @@ class MainScreen extends StatelessWidget {
                       return Container(
                         width: 53.w,
                         height: 53.h,
-                        decoration: BoxDecoration(
+                        decoration: inset.BoxDecoration(
                           color: index < 2 ? Colors.yellow : Colors.white,
                           borderRadius: BorderRadius.circular(4.r),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1,
-                          ),
+                          boxShadow: [
+                            inset.BoxShadow(
+                              blurRadius: 5,
+                              offset: const Offset(4, 4),
+                              color: Colors.black.withOpacity(0.5),
+                              inset: true,
+                            ),
+                          ],
                         ),
                       );
                     },

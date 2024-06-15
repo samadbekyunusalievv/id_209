@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart'
+    as inset;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -82,6 +84,16 @@ class _MainScreen1State extends State<MainScreen1>
     return true;
   }
 
+  bool isAdjacent(int cellIndex, int lastIndex) {
+    int lastRow = lastIndex ~/ gridPattern[0].length;
+    int lastCol = lastIndex % gridPattern[0].length;
+    int row = cellIndex ~/ gridPattern[0].length;
+    int col = cellIndex % gridPattern[0].length;
+
+    return (row == lastRow && (col == lastCol - 1 || col == lastCol + 1)) ||
+        (col == lastCol && (row == lastRow - 1 || row == lastRow + 1));
+  }
+
   void onDragUpdate(DragUpdateDetails details) {
     if (isDragging) {
       RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -92,16 +104,18 @@ class _MainScreen1State extends State<MainScreen1>
           .clamp(0, gridPattern[0].length - 1);
       int cellIndex = row * gridPattern[0].length + col;
 
-      if (!filledCells.contains(cellIndex)) {
-        setState(() {
-          gridFilled[row][col] = true;
-          filledCells.add(cellIndex);
-          if (checkWin()) {
-            _animationController.stop();
-            showContinueButton = true;
-            gridFilledCompletely = true;
-          }
-        });
+      if (filledCells.isEmpty || isAdjacent(cellIndex, filledCells.last)) {
+        if (!filledCells.contains(cellIndex)) {
+          setState(() {
+            gridFilled[row][col] = true;
+            filledCells.add(cellIndex);
+            if (checkWin()) {
+              _animationController.stop();
+              showContinueButton = true;
+              gridFilledCompletely = true;
+            }
+          });
+        }
       }
     }
   }
@@ -116,6 +130,9 @@ class _MainScreen1State extends State<MainScreen1>
   void onDragEnd(DragEndDetails details) {
     setState(() {
       isDragging = false;
+      if (!checkWin()) {
+        resetGrid();
+      }
     });
   }
 
@@ -214,15 +231,19 @@ class _MainScreen1State extends State<MainScreen1>
                         return Container(
                           width: 53.w,
                           height: 53.h,
-                          decoration: BoxDecoration(
+                          decoration: inset.BoxDecoration(
                             color: gridFilled[row][col]
                                 ? Colors.yellow
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(4.r),
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1,
-                            ),
+                            boxShadow: [
+                              inset.BoxShadow(
+                                blurRadius: 5,
+                                offset: const Offset(4, 4),
+                                color: Colors.black.withOpacity(0.5),
+                                inset: true,
+                              ),
+                            ],
                           ),
                         );
                       },
