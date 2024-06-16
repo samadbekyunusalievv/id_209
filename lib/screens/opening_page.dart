@@ -94,14 +94,27 @@ class _MainScreen1State extends State<MainScreen1>
         (col == lastCol && (row == lastRow - 1 || row == lastRow + 1));
   }
 
+  Offset findPositionOffset(Offset localPosition) {
+    double startX = 74.w;
+    double startY = 84.h + 92.h + 30.h;
+    double cellWidth = 53.w + 5.w;
+    double cellHeight = 53.h + 5.h;
+
+    int row = ((localPosition.dy - startY) ~/ cellHeight)
+        .clamp(0, gridPattern.length - 1);
+    int col = ((localPosition.dx - startX) ~/ cellWidth)
+        .clamp(0, gridPattern[0].length - 1);
+
+    return Offset(row.toDouble(), col.toDouble());
+  }
+
   void onDragUpdate(DragUpdateDetails details) {
     if (isDragging) {
       RenderBox renderBox = context.findRenderObject() as RenderBox;
       Offset localPosition = renderBox.globalToLocal(details.globalPosition);
-      int row = ((localPosition.dy - (84.h + 92.h + 30.h)) ~/ (53.h + 5.h))
-          .clamp(0, gridPattern.length - 1);
-      int col = ((localPosition.dx - 74.w) ~/ (53.w + 5.w))
-          .clamp(0, gridPattern[0].length - 1);
+      Offset cellPos = findPositionOffset(localPosition);
+      int row = cellPos.dx.toInt();
+      int col = cellPos.dy.toInt();
       int cellIndex = row * gridPattern[0].length + col;
 
       if (filledCells.isEmpty || isAdjacent(cellIndex, filledCells.last)) {
